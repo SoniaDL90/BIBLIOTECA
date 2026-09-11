@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mis préstamos{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">📖 Mis préstamos</h1>
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+
+<h3>Préstamos activos</h3>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Libro</th>
+            <th>Fecha préstamo</th>
+            <th>Fecha devolución</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in activeLoans %}
+        <tr class="{{ loan.fechaDevolucionPrevista < date() ? 'table-danger' : '' }}">
+            <td>{{ loan.book.titulo }}</td>
+            <td>{{ loan.fechaPrestamo|date('d/m/Y') }}</td>
+            <td>{{ loan.fechaDevolucionPrevista|date('d/m/Y') }}</td>
+            <td>
+                {% if loan.fechaDevolucionPrevista < date() %}
+                    <span class="badge bg-danger">Retrasado</span>
+                {% else %}
+                    <span class="badge bg-success">Activo</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ path('app_loan_return', {'id': loan.id}) }}" class="btn btn-sm btn-warning"
+                   onclick="return confirm('¿Devolver este libro?')">Devolver</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">No tienes préstamos activos</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3 class="mt-4">Historial</h3>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Libro</th>
+            <th>Fecha préstamo</th>
+            <th>Fecha devolución</th>
+        </tr>
+    </thead>
+    </tbody>
+</table>
+{% endblock %}

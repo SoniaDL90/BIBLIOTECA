@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="mb-4">Crear cuenta</h1>
+
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger">{{ flash_error }}</div>
+        {% endfor %}
+
+        {{ form_start(registrationForm, {'attr': {'class': 'card p-4'}}) }}
+            {{ form_errors(registrationForm) }}
+            {{ form_row(registrationForm.nombre, {'row_attr': {'class': 'row mb-3'}, 'label_attr': {'class': 'col-sm-4 col-form-label'}, 'attr': {'class': 'form-control col-sm-8'}}) }}
+            {{ form_row(registrationForm.apellidos, {'row_attr': {'class': 'row mb-3'}, 'label_attr': {'class': 'col-sm-4 col-form-label'}, 'attr': {'class': 'form-control'}}) }}
+            {{ form_row(registrationForm.email, {'row_attr': {'class': 'row mb-3'}, 'label_attr': {'class': 'col-sm-4 col-form-label'}, 'attr': {'class': 'form-control'}}) }}
+            {{ form_row(registrationForm.plainPassword, {'label': 'Contraseña', 'row_attr': {'class': 'row mb-3'}, 'label_attr': {'class': 'col-sm-4 col-form-label'}, 'attr': {'class': 'form-control'}}) }}
+            {{ form_row(registrationForm.agreeTerms, {'label': 'Acepto los términos'}) }}
+            <button type="submit" class="btn btn-primary w-100 mt-2">Registrarse</button>
+        {{ form_end(registrationForm) }}
+
+        <div class="text-center mt-3">
+            <a href="{{ path('app_login') }}">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

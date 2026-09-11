@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Biblioteca{% endblock %}
+
+{% block body %}
+<div class="text-center py-5">
+    <h1 class="display-4">📚 Bienvenido a la Biblioteca</h1>
+    <p class="lead">Encuentra y solicita tus libros favoritos</p>
+    <a href="{{ path('app_books') }}" class="btn btn-primary btn-lg mt-3">Ver catálogo</a>
+</div>
+
+{% if app.user %}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">👤 Hola, {{ app.user.nombre }}</h5>
+                <p class="card-text">Accede a tus préstamos y perfil.</p>
+                <a href="{{ path('app_my_loans') }}" class="btn btn-outline-primary">Mis préstamos</a>
+                <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">Mi perfil</a>
+            </div>
+        </div>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">⚙️ Panel de administración</h5>
+                <p class="card-text">Gestiona libros y préstamos.</p>
+                <a href="{{ path('app_admin') }}" class="btn btn-outline-danger">Panel admin</a>
+                <a href="{{ path('app_book_index') }}" class="btn btn-outline-warning">Gestionar libros</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

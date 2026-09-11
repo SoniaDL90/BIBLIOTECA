@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book{% endblock %}
+
+{% block body %}
+    <h1>Book</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ book.id }}</td>
+            </tr>
+            <tr>
+                <th>Titulo</th>
+                <td>{{ book.titulo }}</td>
+            </tr>
+            <tr>
+                <th>Autor</th>
+                <td>{{ book.autor }}</td>
+            </tr>
+            <tr>
+                <th>Isbn</th>
+                <td>{{ book.isbn }}</td>
+            </tr>
+            <tr>
+                <th>Editorial</th>
+                <td>{{ book.editorial }}</td>
+            </tr>
+            <tr>
+                <th>AnioPublicacion</th>
+                <td>{{ book.anioPublicacion }}</td>
+            </tr>
+            <tr>
+                <th>Genero</th>
+                <td>{{ book.genero }}</td>
+            </tr>
+            <tr>
+                <th>EjemplaresTotales</th>
+                <td>{{ book.ejemplaresTotales }}</td>
+            </tr>
+            <tr>
+                <th>EjemplaresDisponibles</th>
+                <td>{{ book.ejemplaresDisponibles }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ book.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>ImagenPortada</th>
+                <td>{{ book.imagenPortada }}</td>
+            </tr>
+            <tr>
+                <th>FechaCreacion</th>
+                <td>{{ book.fechaCreacion ? book.fechaCreacion|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_book_index') }}">back to list</a>
+
+    <a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
+
+    {{ include('book/_delete_form.html.twig') }}
+{% endblock %}

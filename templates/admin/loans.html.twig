@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todos los préstamos{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>📋 Todos los préstamos</h1>
+    <a href="{{ path('app_admin') }}" class="btn btn-secondary">← Volver al panel</a>
+</div>
+
+<form class="mb-4 d-flex gap-2">
+    <select name="estado" class="form-select w-auto">
+        <option value="">Todos</option>
+        <option value="activo" {{ estado == 'activo' ? 'selected' : '' }}>Activos</option>
+        <option value="devuelto" {{ estado == 'devuelto' ? 'selected' : '' }}>Devueltos</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Usuario</th>
+            <th>Libro</th>
+            <th>Fecha préstamo</th>
+            <th>Fecha devolución</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in loans %}
+        <tr class="{{ loan.estado == 'activo' and loan.fechaDevolucionPrevista < date() ? 'table-danger' : '' }}">
+            <td>{{ loan.user.Nombre }} {{ loan.user.Apellidos }}</td>
+            <td>{{ loan.book.titulo }}</td>
+            <td>{{ loan.fechaPrestamo|date('d/m/Y') }}</td>
+            <td>{{ loan.fechaDevolucionPrevista|date('d/m/Y') }}</td>
+            <td>
+                {% if loan.estado == 'devuelto' %}
+                    <span class="badge bg-secondary">Devuelto</span>
+                {% elseif loan.fechaDevolucionPrevista < date() %}
+                    <span class="badge bg-danger">Retrasado</span>
+                {% else %}
+                    <span class="badge bg-success">Activo</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">No hay préstamos</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

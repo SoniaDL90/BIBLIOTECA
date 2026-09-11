@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mi perfil{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">👤 Mi perfil</h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h2>{{ activeLoans|length }}</h2>
+                <p class="mb-0">📖 Préstamos activos</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h2>{{ historyLoans|length }}</h2>
+                <p class="mb-0">✅ Libros devueltos</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-danger">
+            <div class="card-body text-center">
+                <h2>{{ totalRetrasados }}</h2>
+                <p class="mb-0">⚠️ Retrasados</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>📅 Próximas devoluciones</h3>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Libro</th>
+            <th>Fecha devolución</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in activeLoans %}
+        <tr>
+            <td>{{ loan.book.titulo }}</td>
+            <td>{{ loan.fechaDevolucionPrevista|date('d/m/Y') }}</td>
+            <td>
+                {% if loan.fechaDevolucionPrevista < date() %}
+                    <span class="badge bg-danger">Retrasado</span>
+                {% else %}
+                    <span class="badge bg-success">Activo</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3" class="text-center">No tienes préstamos activos</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-3">
+    <a href="{{ path('app_my_loans') }}" class="btn btn-primary">Ver todos mis préstamos</a>
+    <a href="{{ path('app_books') }}" class="btn btn-secondary">Buscar libros</a>
+</div>
+{% endblock %}
